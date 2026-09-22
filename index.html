@@ -24,113 +24,15 @@ nav{display:flex;gap:22px;padding:0 4% 14px;max-width:1280px;margin:auto}nav a{c
     <div class="search"><input id="search" placeholder="Rechercher un produit..."><button onclick="render()">🔎</button></div>
     <button class="btn yellow" onclick="openCart()">🛒 <span id="count">0</span></button>
   </div>
-  <nav><a href="#">Accueil</a><a href="#categories">Catégories</a><a href="#products">Produits</a><a href="#benefits">Services</a><button class="admin-btn" onclick="openAdmin()">⚙️ Gérer les produits</button></nav>
+  <nav><a href="#">Accueil</a><a href="#categories">Catégories</a><a href="#products">Produits</a><a href="#benefits">Services</a></nav>
 </header>
+
 
 <section class="hero">
   <div><h1>SÉNÉGAL <span>SHOP</span></h1><p>La qualité à portée de main 🇸🇳</p><button class="btn primary" onclick="document.querySelector('#products').scrollIntoView()">Découvrir les produits →</button></div>
   <div style="font-size:110px">🛍️🇸🇳</div>
 </section>
 
+
 <main class="container">
 <section id="categories"><div class="section-title"><h2>Nos catégories</h2></div>
-<div class="grid">
-<div class="cat" onclick="filter('Vêtements')"><b>👕</b>Vêtements</div>
-<div class="cat" onclick="filter('Chaussures')"><b>👟</b>Chaussures</div>
-<div class="cat" onclick="filter('Parfums')"><b>🌸</b>Parfums</div>
-<div class="cat" onclick="filter('Accessoires')"><b>👜</b>Accessoires</div>
-<div class="cat" onclick="filter('Électronique')"><b>📱</b>Électronique</div>
-<div class="cat" onclick="filter('Alimentaire')"><b>🛒</b>Alimentaire</div>
-</div></section>
-
-<section id="benefits" style="margin-top:32px"><div class="benefits">
-<div class="benefit">🚚<br><b>Livraison</b><br>Dakar et Sénégal</div>
-<div class="benefit">📲<br><b>Mobile Money</b><br>À configurer</div>
-<div class="benefit">🛡️<br><b>Produits de qualité</b></div>
-<div class="benefit">💬<br><b>Service client</b><br>WhatsApp</div>
-</div></section>
-
-<section id="products" style="margin-top:32px">
-<div class="section-title"><h2>Produits</h2><button class="btn" onclick="filter('Tous')">Tout afficher</button></div>
-<div id="productGrid" class="products"></div>
-</section>
-</main>
-
-<button class="cart" onclick="openCart()">🛒 Panier (<span id="count2">0</span>)</button>
-
-<aside id="drawer" class="drawer">
-<button class="close" onclick="closeCart()">×</button><h2>Mon panier</h2>
-<div id="cartItems"></div><div class="total">Total : <span id="total">0</span> FCFA</div>
-<p style="color:#666">Le numéro WhatsApp et les moyens de paiement seront ajoutés lors de la configuration finale.</p>
-<button class="btn primary" style="width:100%" onclick="alert('Ajoutez votre numéro WhatsApp pour activer les commandes.')">Commander</button>
-</aside>
-
-<div id="admin" class="admin" onclick="if(event.target===this)closeAdmin()">
-  <div class="admin-box">
-    <div class="admin-head"><h2 style="margin:0">⚙️ Gestion des produits</h2><button class="close" onclick="closeAdmin()">×</button></div>
-    <div class="hint">Ajoute tes produits avec une photo, un nom, une catégorie et un prix. Les produits sont enregistrés dans ce navigateur. Pour qu'ils soient visibles par tous les visiteurs, il faudra ensuite connecter une base de données en ligne.</div>
-    <div class="admin-grid">
-      <div class="admin-field"><label>Nom du produit</label><input id="pName" placeholder="Ex. Ensemble homme"></div>
-      <div class="admin-field"><label>Prix (FCFA)</label><input id="pPrice" type="number" min="0" placeholder="25000"></div>
-      <div class="admin-field"><label>Catégorie</label><select id="pCat"><option>Vêtements</option><option>Chaussures</option><option>Parfums</option><option>Accessoires</option><option>Électronique</option><option>Alimentaire</option></select></div>
-      <div class="admin-field"><label>Photo</label><input id="pImage" type="file" accept="image/*"></div>
-      <div class="admin-field" style="grid-column:1/-1"><label>Description (facultatif)</label><textarea id="pDesc" placeholder="Décris brièvement le produit..."></textarea></div>
-    </div>
-    <div style="display:flex;gap:10px;flex-wrap:wrap;margin-top:12px"><button class="btn primary" onclick="addProductFromForm()">➕ Ajouter le produit</button><button class="btn secondary" onclick="resetProducts()">↩️ Produits de démonstration</button></div>
-    <div class="admin-list"><h3>Mes produits</h3><div id="adminList"></div></div>
-  </div>
-</div>
-
-<footer><strong>SÉNÉGAL SHOP 🇸🇳</strong><br><br>Une boutique généraliste pensée pour le Sénégal.<br><br>© 2026 Sénégal Shop</footer>
-
-<script>
-const demoProducts=[
-{name:"Polo classique",cat:"Vêtements",price:12000,icon:"👕",desc:"Polo classique."},
-{name:"Robe élégante",cat:"Vêtements",price:18000,icon:"👗",desc:"Robe élégante."},
-{name:"Sneakers",cat:"Chaussures",price:25000,icon:"👟",desc:"Sneakers tendance."},
-{name:"Chaussures homme",cat:"Chaussures",price:30000,icon:"👞",desc:"Chaussures homme."},
-{name:"Parfum",cat:"Parfums",price:22000,icon:"🌸",desc:"Parfum."},
-{name:"Sac à main",cat:"Accessoires",price:20000,icon:"👜",desc:"Sac à main."},
-{name:"Montre",cat:"Accessoires",price:15000,icon:"⌚",desc:"Montre."},
-{name:"Smartphone",cat:"Électronique",price:85000,icon:"📱",desc:"Smartphone."},
-{name:"Écouteurs Bluetooth",cat:"Électronique",price:12000,icon:"🎧",desc:"Écouteurs Bluetooth."},
-{name:"Panier alimentaire",cat:"Alimentaire",price:15000,icon:"🛒",desc:"Panier alimentaire."}
-];
-let products=JSON.parse(localStorage.getItem("senegalShopProducts")||"null")||demoProducts;
-function saveProducts(){localStorage.setItem("senegalShopProducts",JSON.stringify(products));}
-let active="Tous",cart=[];
-function render(){
- const q=document.getElementById("search").value.toLowerCase();
- const list=products.filter(p=>(active==="Tous"||p.cat===active)&&p.name.toLowerCase().includes(q));
- document.getElementById("productGrid").innerHTML=list.length?list.map((p,i)=>{const real=products.indexOf(p);return `<div class="card"><div class="product-img">${p.image?`<img src="${p.image}" alt="${p.name}" style="width:100%;height:100%;object-fit:cover;border-radius:12px">`:p.icon||"🛍️"}</div><h3>${p.name}</h3><div style="color:#667067">${p.cat}</div>${p.desc?`<div style="color:#667067;font-size:14px;margin-top:5px">${p.desc}</div>`:""}<div class="price">${Number(p.price).toLocaleString("fr-FR")} FCFA</div><button class="btn primary" onclick="add(${real})">Ajouter au panier</button></div>`}).join(""):"<p>Aucun produit trouvé.</p>";
-}
-function filter(c){active=c;document.querySelector("#products").scrollIntoView({behavior:"smooth"});render()}
-function add(i){cart.push(products[i]);update();openCart()}
-function update(){
- document.getElementById("count").textContent=cart.length;document.getElementById("count2").textContent=cart.length;
- document.getElementById("cartItems").innerHTML=cart.length?cart.map((p,i)=>`<div class="row"><span>${p.icon} ${p.name}</span><b>${p.price.toLocaleString("fr-FR")}</b></div>`).join(""):"<p>Votre panier est vide.</p>";
- document.getElementById("total").textContent=cart.reduce((s,p)=>s+p.price,0).toLocaleString("fr-FR");
-}
-function openCart(){document.getElementById("drawer").classList.add("open");update()}
-function closeCart(){document.getElementById("drawer").classList.remove("open")}
-function openAdmin(){document.getElementById("admin").classList.add("open");renderAdminList()}
-function closeAdmin(){document.getElementById("admin").classList.remove("open")}
-function renderAdminList(){
- const el=document.getElementById("adminList");
- el.innerHTML=products.length?products.map((p,i)=>`<div class="admin-item">${p.image?`<img src="${p.image}" alt="">`:`<div style="width:55px;height:55px;border-radius:10px;background:#eef3ef;display:grid;place-items:center;font-size:28px">${p.icon||"🛍️"}</div>`}<div class="grow"><b>${p.name}</b><br><small>${p.cat} · ${Number(p.price).toLocaleString("fr-FR")} FCFA</small></div><button class="btn danger" onclick="deleteProduct(${i})">Supprimer</button></div>`).join(""):"<p>Aucun produit.</p>";
-}
-async function addProductFromForm(){
- const name=document.getElementById("pName").value.trim(), price=Number(document.getElementById("pPrice").value), cat=document.getElementById("pCat").value, desc=document.getElementById("pDesc").value.trim(), file=document.getElementById("pImage").files[0];
- if(!name||!price){alert("Renseigne au moins le nom et le prix.");return;}
- let image="";
- if(file){image=await new Promise((resolve,reject)=>{const r=new FileReader();r.onload=()=>resolve(r.result);r.onerror=reject;r.readAsDataURL(file);});}
- products.unshift({name,cat,price,desc,image,icon:"🛍️"});saveProducts();render();renderAdminList();
- document.getElementById("pName").value="";document.getElementById("pPrice").value="";document.getElementById("pDesc").value="";document.getElementById("pImage").value="";
- alert("Produit ajouté !");
-}
-function deleteProduct(i){if(confirm("Supprimer ce produit ?")){products.splice(i,1);saveProducts();render();renderAdminList();}}
-function resetProducts(){if(confirm("Remettre les produits de démonstration ?")){products=JSON.parse(JSON.stringify(demoProducts));saveProducts();render();renderAdminList();}}
-document.getElementById("search").addEventListener("input",render);render();update();
-</script>
-</body>
-</html>
