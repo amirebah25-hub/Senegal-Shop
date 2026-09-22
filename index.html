@@ -14,7 +14,7 @@ header{background:#fff;position:sticky;top:0;z-index:5;box-shadow:0 2px 12px #00
 nav{display:flex;gap:22px;padding:0 4% 14px;max-width:1280px;margin:auto}nav a{color:var(--ink);text-decoration:none;font-weight:600}
 .hero{background:linear-gradient(110deg,#dff5e9,#fff5bd);padding:55px 6%;display:flex;align-items:center;justify-content:space-between;gap:30px}.hero h1{font-size:clamp(38px,6vw,70px);margin:0}.hero h1 span{color:var(--red)}.hero p{font-size:21px;color:#3f493f}.btn{border:0;border-radius:10px;padding:13px 20px;font-weight:800;cursor:pointer}.primary{background:var(--green);color:#fff}.yellow{background:var(--yellow)}
 .container{max-width:1280px;margin:auto;padding:28px 4%}.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:14px}.cat,.card{background:#fff;border-radius:16px;padding:16px;box-shadow:0 2px 10px #0000000b}.cat{font-weight:800;cursor:pointer}.cat b{display:block;font-size:34px;margin-bottom:10px}.section-title{display:flex;justify-content:space-between;align-items:center;margin:10px 0 18px}.products{display:grid;grid-template-columns:repeat(auto-fit,minmax(190px,1fr));gap:16px}.product-img{height:150px;border-radius:12px;background:#eef3ef;display:flex;align-items:center;justify-content:center;font-size:62px}.price{font-size:20px;font-weight:900;color:var(--green)}.card h3{margin:10px 0 7px}.card button{width:100%;margin-top:10px}.benefits{display:grid;grid-template-columns:repeat(4,1fr);gap:12px}.benefit{background:#fff;padding:18px;border-radius:14px;text-align:center}.cart{position:fixed;right:18px;bottom:18px;background:var(--red);color:#fff;border:0;border-radius:50px;padding:16px 20px;font-weight:900;box-shadow:0 8px 25px #0003;cursor:pointer}.drawer{position:fixed;right:0;top:0;width:min(420px,100%);height:100%;background:#fff;z-index:10;transform:translateX(100%);transition:.25s;box-shadow:-5px 0 25px #0002;padding:22px;overflow:auto}.drawer.open{transform:none}.row{display:flex;justify-content:space-between;gap:12px;border-bottom:1px solid #eee;padding:12px 0}.close{float:right;background:none;border:0;font-size:25px}.total{font-size:22px;font-weight:900;margin:18px 0}footer{background:#102017;color:#fff;padding:35px 4%;margin-top:35px}
-@media(max-width:700px){.top{flex-wrap:wrap}.search{order:3;flex-basis:100%}nav{overflow:auto}.hero{padding:35px 5%}.benefits{grid-template-columns:1fr 1fr}}
+.admin-btn{background:#172018;color:#fff;border:0;border-radius:10px;padding:10px 14px;font-weight:800;cursor:pointer}.admin{position:fixed;inset:0;background:#0008;z-index:30;display:none;align-items:center;justify-content:center;padding:15px}.admin.open{display:flex}.admin-box{background:#fff;width:min(720px,100%);max-height:92vh;overflow:auto;border-radius:18px;padding:20px}.admin-head{display:flex;justify-content:space-between;align-items:center;gap:10px}.admin-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px}.admin input,.admin select,.admin textarea{width:100%;padding:12px;border:1px solid #ddd;border-radius:10px;font:inherit}.admin textarea{min-height:90px;resize:vertical}.admin label{font-weight:700;font-size:14px}.admin-field{display:flex;flex-direction:column;gap:6px}.admin-list{margin-top:18px}.admin-item{display:flex;align-items:center;gap:10px;border:1px solid #eee;border-radius:12px;padding:10px;margin-top:8px}.admin-item img{width:55px;height:55px;object-fit:cover;border-radius:10px;background:#eef3ef}.admin-item .grow{flex:1}.danger{background:#d71920;color:#fff}.secondary{background:#eef3ef;color:#172018}.hint{font-size:13px;color:#667067;background:#f7f8f7;padding:10px;border-radius:10px;margin:12px 0}@media(max-width:700px){.top{flex-wrap:wrap}.search{order:3;flex-basis:100%}nav{overflow:auto}.hero{padding:35px 5%}.benefits{grid-template-columns:1fr 1fr}}
 </style>
 </head>
 <body>
@@ -24,7 +24,7 @@ nav{display:flex;gap:22px;padding:0 4% 14px;max-width:1280px;margin:auto}nav a{c
     <div class="search"><input id="search" placeholder="Rechercher un produit..."><button onclick="render()">🔎</button></div>
     <button class="btn yellow" onclick="openCart()">🛒 <span id="count">0</span></button>
   </div>
-  <nav><a href="#">Accueil</a><a href="#categories">Catégories</a><a href="#products">Produits</a><a href="#benefits">Services</a></nav>
+  <nav><a href="#">Accueil</a><a href="#categories">Catégories</a><a href="#products">Produits</a><a href="#benefits">Services</a><button class="admin-btn" onclick="openAdmin()">⚙️ Gérer les produits</button></nav>
 </header>
 
 <section class="hero">
@@ -65,26 +65,44 @@ nav{display:flex;gap:22px;padding:0 4% 14px;max-width:1280px;margin:auto}nav a{c
 <button class="btn primary" style="width:100%" onclick="alert('Ajoutez votre numéro WhatsApp pour activer les commandes.')">Commander</button>
 </aside>
 
+<div id="admin" class="admin" onclick="if(event.target===this)closeAdmin()">
+  <div class="admin-box">
+    <div class="admin-head"><h2 style="margin:0">⚙️ Gestion des produits</h2><button class="close" onclick="closeAdmin()">×</button></div>
+    <div class="hint">Ajoute tes produits avec une photo, un nom, une catégorie et un prix. Les produits sont enregistrés dans ce navigateur. Pour qu'ils soient visibles par tous les visiteurs, il faudra ensuite connecter une base de données en ligne.</div>
+    <div class="admin-grid">
+      <div class="admin-field"><label>Nom du produit</label><input id="pName" placeholder="Ex. Ensemble homme"></div>
+      <div class="admin-field"><label>Prix (FCFA)</label><input id="pPrice" type="number" min="0" placeholder="25000"></div>
+      <div class="admin-field"><label>Catégorie</label><select id="pCat"><option>Vêtements</option><option>Chaussures</option><option>Parfums</option><option>Accessoires</option><option>Électronique</option><option>Alimentaire</option></select></div>
+      <div class="admin-field"><label>Photo</label><input id="pImage" type="file" accept="image/*"></div>
+      <div class="admin-field" style="grid-column:1/-1"><label>Description (facultatif)</label><textarea id="pDesc" placeholder="Décris brièvement le produit..."></textarea></div>
+    </div>
+    <div style="display:flex;gap:10px;flex-wrap:wrap;margin-top:12px"><button class="btn primary" onclick="addProductFromForm()">➕ Ajouter le produit</button><button class="btn secondary" onclick="resetProducts()">↩️ Produits de démonstration</button></div>
+    <div class="admin-list"><h3>Mes produits</h3><div id="adminList"></div></div>
+  </div>
+</div>
+
 <footer><strong>SÉNÉGAL SHOP 🇸🇳</strong><br><br>Une boutique généraliste pensée pour le Sénégal.<br><br>© 2026 Sénégal Shop</footer>
 
 <script>
-const products=[
-{name:"Polo classique",cat:"Vêtements",price:12000,icon:"👕"},
-{name:"Robe élégante",cat:"Vêtements",price:18000,icon:"👗"},
-{name:"Sneakers",cat:"Chaussures",price:25000,icon:"👟"},
-{name:"Chaussures homme",cat:"Chaussures",price:30000,icon:"👞"},
-{name:"Parfum",cat:"Parfums",price:22000,icon:"🌸"},
-{name:"Sac à main",cat:"Accessoires",price:20000,icon:"👜"},
-{name:"Montre",cat:"Accessoires",price:15000,icon:"⌚"},
-{name:"Smartphone",cat:"Électronique",price:85000,icon:"📱"},
-{name:"Écouteurs Bluetooth",cat:"Électronique",price:12000,icon:"🎧"},
-{name:"Panier alimentaire",cat:"Alimentaire",price:15000,icon:"🛒"}
+const demoProducts=[
+{name:"Polo classique",cat:"Vêtements",price:12000,icon:"👕",desc:"Polo classique."},
+{name:"Robe élégante",cat:"Vêtements",price:18000,icon:"👗",desc:"Robe élégante."},
+{name:"Sneakers",cat:"Chaussures",price:25000,icon:"👟",desc:"Sneakers tendance."},
+{name:"Chaussures homme",cat:"Chaussures",price:30000,icon:"👞",desc:"Chaussures homme."},
+{name:"Parfum",cat:"Parfums",price:22000,icon:"🌸",desc:"Parfum."},
+{name:"Sac à main",cat:"Accessoires",price:20000,icon:"👜",desc:"Sac à main."},
+{name:"Montre",cat:"Accessoires",price:15000,icon:"⌚",desc:"Montre."},
+{name:"Smartphone",cat:"Électronique",price:85000,icon:"📱",desc:"Smartphone."},
+{name:"Écouteurs Bluetooth",cat:"Électronique",price:12000,icon:"🎧",desc:"Écouteurs Bluetooth."},
+{name:"Panier alimentaire",cat:"Alimentaire",price:15000,icon:"🛒",desc:"Panier alimentaire."}
 ];
+let products=JSON.parse(localStorage.getItem("senegalShopProducts")||"null")||demoProducts;
+function saveProducts(){localStorage.setItem("senegalShopProducts",JSON.stringify(products));}
 let active="Tous",cart=[];
 function render(){
  const q=document.getElementById("search").value.toLowerCase();
  const list=products.filter(p=>(active==="Tous"||p.cat===active)&&p.name.toLowerCase().includes(q));
- document.getElementById("productGrid").innerHTML=list.map((p,i)=>`<div class="card"><div class="product-img">${p.icon}</div><h3>${p.name}</h3><div style="color:#667067">${p.cat}</div><div class="price">${p.price.toLocaleString("fr-FR")} FCFA</div><button class="btn primary" onclick="add(${products.indexOf(p)})">Ajouter au panier</button></div>`).join("");
+ document.getElementById("productGrid").innerHTML=list.length?list.map((p,i)=>{const real=products.indexOf(p);return `<div class="card"><div class="product-img">${p.image?`<img src="${p.image}" alt="${p.name}" style="width:100%;height:100%;object-fit:cover;border-radius:12px">`:p.icon||"🛍️"}</div><h3>${p.name}</h3><div style="color:#667067">${p.cat}</div>${p.desc?`<div style="color:#667067;font-size:14px;margin-top:5px">${p.desc}</div>`:""}<div class="price">${Number(p.price).toLocaleString("fr-FR")} FCFA</div><button class="btn primary" onclick="add(${real})">Ajouter au panier</button></div>`}).join(""):"<p>Aucun produit trouvé.</p>";
 }
 function filter(c){active=c;document.querySelector("#products").scrollIntoView({behavior:"smooth"});render()}
 function add(i){cart.push(products[i]);update();openCart()}
@@ -95,6 +113,23 @@ function update(){
 }
 function openCart(){document.getElementById("drawer").classList.add("open");update()}
 function closeCart(){document.getElementById("drawer").classList.remove("open")}
+function openAdmin(){document.getElementById("admin").classList.add("open");renderAdminList()}
+function closeAdmin(){document.getElementById("admin").classList.remove("open")}
+function renderAdminList(){
+ const el=document.getElementById("adminList");
+ el.innerHTML=products.length?products.map((p,i)=>`<div class="admin-item">${p.image?`<img src="${p.image}" alt="">`:`<div style="width:55px;height:55px;border-radius:10px;background:#eef3ef;display:grid;place-items:center;font-size:28px">${p.icon||"🛍️"}</div>`}<div class="grow"><b>${p.name}</b><br><small>${p.cat} · ${Number(p.price).toLocaleString("fr-FR")} FCFA</small></div><button class="btn danger" onclick="deleteProduct(${i})">Supprimer</button></div>`).join(""):"<p>Aucun produit.</p>";
+}
+async function addProductFromForm(){
+ const name=document.getElementById("pName").value.trim(), price=Number(document.getElementById("pPrice").value), cat=document.getElementById("pCat").value, desc=document.getElementById("pDesc").value.trim(), file=document.getElementById("pImage").files[0];
+ if(!name||!price){alert("Renseigne au moins le nom et le prix.");return;}
+ let image="";
+ if(file){image=await new Promise((resolve,reject)=>{const r=new FileReader();r.onload=()=>resolve(r.result);r.onerror=reject;r.readAsDataURL(file);});}
+ products.unshift({name,cat,price,desc,image,icon:"🛍️"});saveProducts();render();renderAdminList();
+ document.getElementById("pName").value="";document.getElementById("pPrice").value="";document.getElementById("pDesc").value="";document.getElementById("pImage").value="";
+ alert("Produit ajouté !");
+}
+function deleteProduct(i){if(confirm("Supprimer ce produit ?")){products.splice(i,1);saveProducts();render();renderAdminList();}}
+function resetProducts(){if(confirm("Remettre les produits de démonstration ?")){products=JSON.parse(JSON.stringify(demoProducts));saveProducts();render();renderAdminList();}}
 document.getElementById("search").addEventListener("input",render);render();update();
 </script>
 </body>
