@@ -1,0 +1,101 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Sénégal Shop — Tout au même endroit</title>
+<style>
+:root{--green:#087443;--red:#d71920;--yellow:#f5c400;--ink:#172018;--muted:#667067;--bg:#f7f8f7}
+*{box-sizing:border-box}body{margin:0;font-family:Arial,Helvetica,sans-serif;color:var(--ink);background:var(--bg)}
+header{background:#fff;position:sticky;top:0;z-index:5;box-shadow:0 2px 12px #0001}
+.top{display:flex;align-items:center;gap:18px;padding:14px 4%;max-width:1280px;margin:auto}
+.logo{font-weight:900;font-size:26px;line-height:.9;color:var(--green)}.logo span{color:var(--red)}
+.search{flex:1;display:flex;border:1px solid #ddd;border-radius:12px;overflow:hidden}.search input{flex:1;padding:13px;border:0;outline:0}.search button{background:var(--green);color:#fff;border:0;padding:0 18px}
+nav{display:flex;gap:22px;padding:0 4% 14px;max-width:1280px;margin:auto}nav a{color:var(--ink);text-decoration:none;font-weight:600}
+.hero{background:linear-gradient(110deg,#dff5e9,#fff5bd);padding:55px 6%;display:flex;align-items:center;justify-content:space-between;gap:30px}.hero h1{font-size:clamp(38px,6vw,70px);margin:0}.hero h1 span{color:var(--red)}.hero p{font-size:21px;color:#3f493f}.btn{border:0;border-radius:10px;padding:13px 20px;font-weight:800;cursor:pointer}.primary{background:var(--green);color:#fff}.yellow{background:var(--yellow)}
+.container{max-width:1280px;margin:auto;padding:28px 4%}.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:14px}.cat,.card{background:#fff;border-radius:16px;padding:16px;box-shadow:0 2px 10px #0000000b}.cat{font-weight:800;cursor:pointer}.cat b{display:block;font-size:34px;margin-bottom:10px}.section-title{display:flex;justify-content:space-between;align-items:center;margin:10px 0 18px}.products{display:grid;grid-template-columns:repeat(auto-fit,minmax(190px,1fr));gap:16px}.product-img{height:150px;border-radius:12px;background:#eef3ef;display:flex;align-items:center;justify-content:center;font-size:62px}.price{font-size:20px;font-weight:900;color:var(--green)}.card h3{margin:10px 0 7px}.card button{width:100%;margin-top:10px}.benefits{display:grid;grid-template-columns:repeat(4,1fr);gap:12px}.benefit{background:#fff;padding:18px;border-radius:14px;text-align:center}.cart{position:fixed;right:18px;bottom:18px;background:var(--red);color:#fff;border:0;border-radius:50px;padding:16px 20px;font-weight:900;box-shadow:0 8px 25px #0003;cursor:pointer}.drawer{position:fixed;right:0;top:0;width:min(420px,100%);height:100%;background:#fff;z-index:10;transform:translateX(100%);transition:.25s;box-shadow:-5px 0 25px #0002;padding:22px;overflow:auto}.drawer.open{transform:none}.row{display:flex;justify-content:space-between;gap:12px;border-bottom:1px solid #eee;padding:12px 0}.close{float:right;background:none;border:0;font-size:25px}.total{font-size:22px;font-weight:900;margin:18px 0}footer{background:#102017;color:#fff;padding:35px 4%;margin-top:35px}
+@media(max-width:700px){.top{flex-wrap:wrap}.search{order:3;flex-basis:100%}nav{overflow:auto}.hero{padding:35px 5%}.benefits{grid-template-columns:1fr 1fr}}
+</style>
+</head>
+<body>
+<header>
+  <div class="top">
+    <div class="logo">SÉNÉGAL <span>SHOP</span><small style="display:block;font-size:10px;color:#555;margin-top:5px">Tout au même endroit</small></div>
+    <div class="search"><input id="search" placeholder="Rechercher un produit..."><button onclick="render()">🔎</button></div>
+    <button class="btn yellow" onclick="openCart()">🛒 <span id="count">0</span></button>
+  </div>
+  <nav><a href="#">Accueil</a><a href="#categories">Catégories</a><a href="#products">Produits</a><a href="#benefits">Services</a></nav>
+</header>
+
+<section class="hero">
+  <div><h1>SÉNÉGAL <span>SHOP</span></h1><p>La qualité à portée de main 🇸🇳</p><button class="btn primary" onclick="document.querySelector('#products').scrollIntoView()">Découvrir les produits →</button></div>
+  <div style="font-size:110px">🛍️🇸🇳</div>
+</section>
+
+<main class="container">
+<section id="categories"><div class="section-title"><h2>Nos catégories</h2></div>
+<div class="grid">
+<div class="cat" onclick="filter('Vêtements')"><b>👕</b>Vêtements</div>
+<div class="cat" onclick="filter('Chaussures')"><b>👟</b>Chaussures</div>
+<div class="cat" onclick="filter('Parfums')"><b>🌸</b>Parfums</div>
+<div class="cat" onclick="filter('Accessoires')"><b>👜</b>Accessoires</div>
+<div class="cat" onclick="filter('Électronique')"><b>📱</b>Électronique</div>
+<div class="cat" onclick="filter('Alimentaire')"><b>🛒</b>Alimentaire</div>
+</div></section>
+
+<section id="benefits" style="margin-top:32px"><div class="benefits">
+<div class="benefit">🚚<br><b>Livraison</b><br>Dakar et Sénégal</div>
+<div class="benefit">📲<br><b>Mobile Money</b><br>À configurer</div>
+<div class="benefit">🛡️<br><b>Produits de qualité</b></div>
+<div class="benefit">💬<br><b>Service client</b><br>WhatsApp</div>
+</div></section>
+
+<section id="products" style="margin-top:32px">
+<div class="section-title"><h2>Produits</h2><button class="btn" onclick="filter('Tous')">Tout afficher</button></div>
+<div id="productGrid" class="products"></div>
+</section>
+</main>
+
+<button class="cart" onclick="openCart()">🛒 Panier (<span id="count2">0</span>)</button>
+
+<aside id="drawer" class="drawer">
+<button class="close" onclick="closeCart()">×</button><h2>Mon panier</h2>
+<div id="cartItems"></div><div class="total">Total : <span id="total">0</span> FCFA</div>
+<p style="color:#666">Le numéro WhatsApp et les moyens de paiement seront ajoutés lors de la configuration finale.</p>
+<button class="btn primary" style="width:100%" onclick="alert('Ajoutez votre numéro WhatsApp pour activer les commandes.')">Commander</button>
+</aside>
+
+<footer><strong>SÉNÉGAL SHOP 🇸🇳</strong><br><br>Une boutique généraliste pensée pour le Sénégal.<br><br>© 2026 Sénégal Shop</footer>
+
+<script>
+const products=[
+{name:"Polo classique",cat:"Vêtements",price:12000,icon:"👕"},
+{name:"Robe élégante",cat:"Vêtements",price:18000,icon:"👗"},
+{name:"Sneakers",cat:"Chaussures",price:25000,icon:"👟"},
+{name:"Chaussures homme",cat:"Chaussures",price:30000,icon:"👞"},
+{name:"Parfum",cat:"Parfums",price:22000,icon:"🌸"},
+{name:"Sac à main",cat:"Accessoires",price:20000,icon:"👜"},
+{name:"Montre",cat:"Accessoires",price:15000,icon:"⌚"},
+{name:"Smartphone",cat:"Électronique",price:85000,icon:"📱"},
+{name:"Écouteurs Bluetooth",cat:"Électronique",price:12000,icon:"🎧"},
+{name:"Panier alimentaire",cat:"Alimentaire",price:15000,icon:"🛒"}
+];
+let active="Tous",cart=[];
+function render(){
+ const q=document.getElementById("search").value.toLowerCase();
+ const list=products.filter(p=>(active==="Tous"||p.cat===active)&&p.name.toLowerCase().includes(q));
+ document.getElementById("productGrid").innerHTML=list.map((p,i)=>`<div class="card"><div class="product-img">${p.icon}</div><h3>${p.name}</h3><div style="color:#667067">${p.cat}</div><div class="price">${p.price.toLocaleString("fr-FR")} FCFA</div><button class="btn primary" onclick="add(${products.indexOf(p)})">Ajouter au panier</button></div>`).join("");
+}
+function filter(c){active=c;document.querySelector("#products").scrollIntoView({behavior:"smooth"});render()}
+function add(i){cart.push(products[i]);update();openCart()}
+function update(){
+ document.getElementById("count").textContent=cart.length;document.getElementById("count2").textContent=cart.length;
+ document.getElementById("cartItems").innerHTML=cart.length?cart.map((p,i)=>`<div class="row"><span>${p.icon} ${p.name}</span><b>${p.price.toLocaleString("fr-FR")}</b></div>`).join(""):"<p>Votre panier est vide.</p>";
+ document.getElementById("total").textContent=cart.reduce((s,p)=>s+p.price,0).toLocaleString("fr-FR");
+}
+function openCart(){document.getElementById("drawer").classList.add("open");update()}
+function closeCart(){document.getElementById("drawer").classList.remove("open")}
+document.getElementById("search").addEventListener("input",render);render();update();
+</script>
+</body>
+</html>
